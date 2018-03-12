@@ -179,7 +179,10 @@ class postfix::server (
   } else {
     $package_name = $postfix_package
   }
-  ensure_packages([$package_name], {'ensure' => "$postfix_package_ensure", 'alias' => 'postfix' })
+
+  if ($postfix_package_ensure != 'ignore') {
+    ensure_packages([$package_name], {'ensure' => "$postfix_package_ensure", 'alias' => 'postfix' })
+  }
 
   service { 'postfix':
     require   => Package[$package_name],
