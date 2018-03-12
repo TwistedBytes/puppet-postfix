@@ -179,7 +179,7 @@ class postfix::server (
   } else {
     $package_name = $postfix_package
   }
-  package { $package_name: ensure => $postfix_package_ensure, alias => 'postfix' }
+  ensure_packages([$package_name], {'ensure' => "$postfix_package_ensure", 'alias' => 'postfix' })
 
   service { 'postfix':
     require   => Package[$package_name],
@@ -203,7 +203,7 @@ class postfix::server (
   # Optional Spamassassin setup (using spampd)
   if $spamassassin {
     # Main packages and service they provide
-    package { [ $spamassassin_package, $spampd_package ]: ensure => installed }
+    ensure_packages([ $spamassassin_package, $spampd_package ], {'ensure' => 'installed'})
     # Note that we don't want the normal spamassassin (spamd) service
     service { 'spampd':
       require   => Package[$spampd_package],
@@ -227,7 +227,8 @@ class postfix::server (
   # Optional Postgrey setup
   if $postgrey {
     # Main package and service it provides
-    package { $postgrey_package: ensure => installed }
+    ensure_packages([$postgrey_package], { 'ensure' => 'installed' })
+
     service { 'postgrey':
       require   => Package[$postgrey_package],
       enable    => true,
