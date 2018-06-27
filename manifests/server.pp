@@ -86,8 +86,8 @@ class postfix::server (
   $smtp_generic_maps = false,
   $relocated_maps = false,
   $extra_main_parameters = {},
-  $smtpd_client_message_rate_limit = 0,
-  $smtpd_client_recipient_rate_limit = 0,
+  $smtpd_client_message_rate_limit = undef,
+  $smtpd_client_recipient_rate_limit = undef,
   # master.cf
   $smtp_content_filter = [],
   $smtps_content_filter = [],
