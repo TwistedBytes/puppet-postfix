@@ -165,7 +165,9 @@ class postfix::server (
   $root_group             = $::postfix::params::root_group,
   $mailq_path             = $::postfix::params::mailq_path,
   $newaliases_path        = $::postfix::params::newaliases_path,
-  $sendmail_path          = $::postfix::params::sendmail_path
+  $sendmail_path          = $::postfix::params::sendmail_path,
+
+  $template_master        = "postfix/master.cf${filesuffix}.erb",
 ) inherits ::postfix::params {
 
   # Default has el5 files, for el6 a few defaults have changed
@@ -173,6 +175,15 @@ class postfix::server (
     $filesuffix = '-el5'
   } else {
     $filesuffix = ''
+  }
+
+  $_template_master = $template_master != undef ? {
+    true =>  "postfix/master.cf${filesuffix}.erb",
+    false => $template_master,
+  }
+  $_template_main = $template_main != undef ? {
+    true =>  "postfix/main.cf${filesuffix}.erb",
+    false => $template_main,
   }
 
   # Main package and service it provides
@@ -195,12 +206,12 @@ class postfix::server (
   }
 
   file { "${config_directory}/master.cf":
-    content => template("postfix/master.cf${filesuffix}.erb"),
+    content => template($_template_main),
     notify  => Service['postfix'],
     require => Package[$package_name],
   }
   file { "${config_directory}/main.cf":
-    content => template("postfix/main.cf${filesuffix}.erb"),
+    content => template($_template_main),
     notify  => Service['postfix'],
     require => Package[$package_name],
   }
