@@ -167,8 +167,8 @@ class postfix::server (
   $newaliases_path        = $::postfix::params::newaliases_path,
   $sendmail_path          = $::postfix::params::sendmail_path,
 
-  $template_master        = "postfix/master.cf${filesuffix}.erb",
-  $template_main          = "postfix/main.cf${filesuffix}.erb",
+  $template_master        = undef,
+  $template_main          = undef,
 ) inherits ::postfix::params {
 
   # Default has el5 files, for el6 a few defaults have changed
