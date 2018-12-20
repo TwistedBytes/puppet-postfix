@@ -207,7 +207,7 @@ class postfix::server (
   }
 
   file { "${config_directory}/master.cf":
-    content => template($_template_main),
+    content => template($_template_master),
     notify  => Service['postfix'],
     require => Package[$package_name],
   }
