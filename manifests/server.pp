@@ -178,11 +178,11 @@ class postfix::server (
     $filesuffix = ''
   }
 
-  $_template_master = $template_master != undef ? {
+  $_template_master = $template_master == undef ? {
     true =>  "postfix/master.cf${filesuffix}.erb",
     false => $template_master,
   }
-  $_template_main = $template_main != undef ? {
+  $_template_main = $template_main == undef ? {
     true =>  "postfix/main.cf${filesuffix}.erb",
     false => $template_main,
   }
